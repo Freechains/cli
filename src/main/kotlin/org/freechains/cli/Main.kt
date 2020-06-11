@@ -32,7 +32,7 @@ Usage:
     freechains crypto (shared | pubpvt) <passphrase>
     
 Options:
-    --help              [none]            displays this org.freechains.core.help
+    --help              [none]            displays this help
     --version           [none]            displays version information
     --host=<addr:port>  [all]             sets address and port to connect [default: localhost:$PORT_8330]
     --sign=<pvt>        [post|(dis)like]  signs post with given private key
@@ -79,8 +79,7 @@ fun main_cli (args: Array<String>) : Pair<Boolean,String> {
             opts.containsKey("--help") -> Pair(true, help)
             (cmds.size == 0) -> Pair(false, help)
             else -> {
-                val (addr, port) = (opts["--host"]
-                        ?: "localhost:$PORT_8330").hostSplit()
+                val (addr, port) = (opts["--host"] ?: "localhost:$PORT_8330").to_Addr_Port()
                 val socket = Socket_5s(addr, port)
                 val writer = DataOutputStream(socket.getOutputStream()!!)
                 val reader = DataInputStream(socket.getInputStream()!!)
