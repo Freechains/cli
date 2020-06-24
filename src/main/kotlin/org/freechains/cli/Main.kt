@@ -69,31 +69,31 @@ fun main_cli (args: Array<String>) : Pair<Boolean,String> {
         @Suppress("UNREACHABLE_CODE")
         val ret: String = when (cmds[0]) {
             "crypto" -> {
-                assert_(cmds.size == 3)
+                assert_(cmds.size == 3) { "invalid number of arguments" }
                 writer.writeLineX("$PRE crypto ${cmds[1]} ${cmds[2]}")
                 reader.readLineX()
             }
             "peer" -> {
-                assert_(cmds.size in 3..4)
+                assert_(cmds.size in 3..4) { "invalid number of arguments" }
                 val remote = cmds[1]
                 when (cmds[2]) {
                     "ping" -> {
-                        assert_(cmds.size == 3)
+                        assert_(cmds.size == 3) { "invalid number of arguments" }
                         writer.writeLineX("$PRE peer $remote ping")
                         reader.readLineX()
                     }
                     "chains" -> {
-                        assert_(cmds.size == 3)
+                        assert_(cmds.size == 3) { "invalid number of arguments" }
                         writer.writeLineX("$PRE peer $remote chains")
                         reader.readLineX()
                     }
                     "send" -> {
-                        assert_(cmds.size == 4)
+                        assert_(cmds.size == 4) { "invalid number of arguments" }
                         writer.writeLineX("$PRE peer $remote send ${cmds[3]}")
                         reader.readLineX()
                     }
                     "recv" -> {
-                        assert_(cmds.size == 4)
+                        assert_(cmds.size == 4) { "invalid number of arguments" }
                         writer.writeLineX("$PRE peer $remote recv ${cmds[3]}")
                         reader.readLineX()
                     }
@@ -101,26 +101,26 @@ fun main_cli (args: Array<String>) : Pair<Boolean,String> {
                 }
             }
             "chains" -> {
-                assert_(cmds.size in 2..4)
+                assert_(cmds.size in 2..4) { "invalid number of arguments" }
                 when (cmds[1]) {
                     "list" -> {
-                        assert_(cmds.size == 2)
+                        assert_(cmds.size == 2) { "invalid number of arguments" }
                         writer.writeLineX("$PRE chains list")
                         reader.readLineX()
                     }
                     "leave" -> {
-                        assert_(cmds.size == 3)
+                        assert_(cmds.size == 3) { "invalid number of arguments" }
                         writer.writeLineX("$PRE chains leave ${cmds[2]}")
                         reader.readLineX()
                     }
                     "join" -> {
-                        assert_(cmds.size in 3..4)
+                        assert_(cmds.size in 3..4) { "invalid number of arguments" }
                         val shared = if (cmds.size == 3) "" else " " + cmds[3]
                         writer.writeLineX("$PRE chains join ${cmds[2]}$shared")
                         reader.readLineX()
                     }
                     "listen" -> {
-                        assert_(cmds.size == 2)
+                        assert_(cmds.size == 2) { "invalid number of arguments" }
                         writer.writeLineX("$PRE chains listen")
                         while (true) {
                             val n_name = reader.readLineX()
@@ -132,11 +132,11 @@ fun main_cli (args: Array<String>) : Pair<Boolean,String> {
                 }
             }
             "chain" -> {
-                assert_(cmds.size >= 3)
+                assert_(cmds.size >= 3) { "invalid number of arguments" }
                 val chain = cmds[1]
 
                 fun like(lk: String): String {
-                    assert_(cmds.size == 4)
+                    assert_(cmds.size == 4) { "invalid number of arguments" }
                     assert_(opts["--sign"] is String) { "expected `--sign`" }
                     val (len, pay) = opts["--why"].let {
                         if (it == null) {
@@ -152,17 +152,17 @@ fun main_cli (args: Array<String>) : Pair<Boolean,String> {
 
                 when (cmds[2]) {
                     "genesis" -> {
-                        assert_(cmds.size == 3)
+                        assert_(cmds.size == 3) { "invalid number of arguments" }
                         writer.writeLineX("$PRE chain $chain genesis")
                         reader.readLineX()
                     }
                     "heads" -> {
-                        assert_(cmds.size == 4)
+                        assert_(cmds.size == 4) { "invalid number of arguments" }
                         writer.writeLineX("$PRE chain $chain heads ${cmds[3]}")
                         reader.readLineX()
                     }
                     "get" -> {
-                        assert_(cmds.size == 5)
+                        assert_(cmds.size == 5) { "invalid number of arguments" }
                         val decrypt = opts["--decrypt"].toString() // null or pvtkey
 
                         writer.writeLineX("$PRE chain $chain get ${cmds[3]} ${cmds[4]} $decrypt")
@@ -174,7 +174,7 @@ fun main_cli (args: Array<String>) : Pair<Boolean,String> {
                         }
                     }
                     "post" -> {
-                        assert_(cmds.size in 4..5)
+                        assert_(cmds.size in 4..5) { "invalid number of arguments" }
                         val sign = opts["--sign"] ?: "anon"
                         val encrypt = opts.containsKey("--encrypt").toString() // null (false) or empty (true)
 
@@ -191,26 +191,26 @@ fun main_cli (args: Array<String>) : Pair<Boolean,String> {
                         reader.readLineX()
                     }
                     "traverse" -> {
-                        assert_(cmds.size >= 5)
+                        assert_(cmds.size >= 5) { "invalid number of arguments" }
                         val downto = cmds.drop(3).joinToString(" ")
                         writer.writeLineX("$PRE chain $chain traverse ${cmds[3]} $downto")
                         reader.readLineX()
                     }
                     "reps" -> {
-                        assert_(cmds.size == 4)
+                        assert_(cmds.size == 4) { "invalid number of arguments" }
                         writer.writeLineX("$PRE chain $chain reps ${cmds[3]}")
                         reader.readLineX()
                     }
                     "like" -> like("1")
                     "dislike" -> like("-1")
                     "remove" -> {
-                        assert_(cmds.size == 4)
+                        assert_(cmds.size == 4) { "invalid number of arguments" }
                         writer.writeLineX("$PRE chain $chain remove ${cmds[3]}")
                         assert_(reader.readLineX() == "true")
                         ""
                     }
                     "listen" -> {
-                        assert_(cmds.size == 3)
+                        assert_(cmds.size == 3) { "invalid number of arguments" }
                         writer.writeLineX("$PRE chain $chain listen")
                         while (true) {
                             val n = reader.readLineX()
