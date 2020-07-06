@@ -34,10 +34,10 @@ Options:
     --help              [none]            displays this help
     --version           [none]            displays software version
     --host=<addr:port>  [all]             sets host address and port to connect [default: localhost:$PORT_8330]
-    --port=port         [all]             sets host port to connect [default: $PORT_8330]
+    --port=<port>       [all]             sets host port to connect [default: $PORT_8330]
     --sign=<pvt>        [post|(dis)like]  signs post with given private key
     --encrypt           [post]            encrypts post with public key (only in public identity chains)
-    --decrypt=<pvt>]    [get]             decrypts post with private key (only in public identity chains)
+    --decrypt=<pvt>     [get]             decrypts post with private key (only in public identity chains)
     --why=<text>        [(dis)like]       explains reason for the like
 
 More Information:
@@ -67,7 +67,9 @@ fun main_cli (args: Array<String>) : Pair<Boolean,String> {
         val ret: String = when (cmds[0]) {
             "crypto" -> {
                 assert_(cmds.size == 3) { "invalid number of arguments" }
-                writer.writeLineX("$PRE crypto ${cmds[1]} ${cmds[2]}")
+                writer.writeLineX("$PRE crypto ${cmds[1]}")
+                assert_(!cmds[2].contains('\n')) { "invalid password" }
+                writer.writeLineX(cmds[2])
                 reader.readLineX()
             }
             "peer" -> {
