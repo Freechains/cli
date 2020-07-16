@@ -63,6 +63,7 @@ fun main_cli (args: Array<String>) : Pair<Boolean,String> {
         val writer = DataOutputStream(socket.getOutputStream()!!)
         val reader = DataInputStream(socket.getInputStream()!!)
 
+        //println("+++ $cmds")
         @Suppress("UNREACHABLE_CODE")
         val ret: String = when (cmds[0]) {
             "crypto" -> {
